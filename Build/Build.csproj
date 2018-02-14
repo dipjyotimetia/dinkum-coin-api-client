@@ -10,7 +10,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CrownBet.Build.Git" Version="1.0.6" />
     <PackageReference Include="Nuke.Common" Version="0.1.454" />
     <PackageReference Include="Nuke.Core" Version="0.1.454" />
   </ItemGroup>

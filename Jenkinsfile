@@ -1,10 +1,6 @@
 pipeline {
-	agent  { label 'win' } 
+	agent any
 	
-	environment {
-		DOTNET_SKIP_FIRST_TIME_EXPERIENCE = "1"
-		DOTNET_CLI_TELEMETRY_OPTOUT = "1"
-	}
 
 	stages {
 		stage("Build") {
@@ -31,18 +27,29 @@ pipeline {
 				stash name: "solution", useDefaultExcludes: false
  			}
 		}
-		
-		stage("Publish NuGet package") {
-			when { branch "master" }
-			steps {
+
+		stage("Code Coverage")  {
+		steps {
 				deleteDir()
 				unstash "solution"
 
-				buildTarget "Package", "-NoDeps"
-				buildTarget "Publish", "-NoDeps"
-
-			}
+				buildTarget "UnitTest", "-NoDeps"
+				
+				stash name: "solution", useDefaultExcludes: false
+ 			}
 		}
+		
+	//	stage("Publish NuGet package") {
+//			when { branch "master" }
+//			steps {
+//				deleteDir()
+//				unstash "solution"
+//
+//				buildTarget "Package", "-NoDeps"
+//				buildTarget "Publish", "-NoDeps"
+
+//			}
+//		}
 	}
 }
 

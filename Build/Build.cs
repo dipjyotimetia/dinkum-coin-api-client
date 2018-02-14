@@ -1,47 +1,63 @@
-﻿using CrownBet.Build;
-using Nuke.Common.Tools.DotNet;
-using Nuke.Core;
+﻿using Nuke.Core;
 using System.IO;
-using  Nuke.Common.Tools.Nunit;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Core.IO.PathConstruction;
 using Nuke.Common.Tools.MSBuild;
 using Nuke.Common.Tools.NuGet;
-
+using Nuke.Common.Tools.DotNet;
+using Nuke.Core.Tooling;
 
 namespace Build
 {
     public partial class Build : NukeBuild
     {
-        [Parameter("The file to write the build version to (" + nameof(Export_Build_Version) + " target only)")] public string BuildVersionFilePath;
-        public Target Export_Build_Version => _ => _
-            .Description("Outputs the build version to a file")
-            .Requires(() => BuildVersionFilePath)
-            .Executes(() => File.WriteAllText(BuildVersionFilePath, GetBuildVersion()));
 
+        private string OpenCoverPath = "C:/Tools/OpenCover/OpenCover.Console.exe";
 
-
-        public Target Compile => _ => _
-            .DependsOn(Export_Build_Version)
+       public Target Compile => _ => _
             .Executes(() =>
                 DotNetBuild(
                     RootDirectory,
                     settings => settings
                     .SetConfiguration("Release")
-                        .SetFileVersion(GetSemanticBuildVersion())
-                        .SetInformationalVersion(GetBuildVersion())
-                        .AddProperty("Version", GetBuildVersion())));
+                         ));
+        
 
         public Target UnitTest => _ => _
             .DependsOn(Compile)
             .Executes(() => 
              DotNetTest(settings => settings
-                            .SetProjectFile(RootDirectory / "CrownBet.QA.API.Core.Tests")
+                        .SetProjectFile(RootDirectory / "DinkumCoin.Api.Client.Tests")
 							.SetConfiguration("Release")
                             .SetLogger("xunit;LogFilePath=TestResults.xml")
+                            //.SetLogger("nunit;LogFilePath=TestResults.xml")
                          .SetNoBuild(true))
             );
 
+
+        public Target CodeCoverage => _ => _
+            .Description("Perform all unit tests")
+            .DependsOn(Compile)
+            .Executes(() =>
+            {
+            string[] testProjects = { "DinkumCoin.Api.Client" };
+                foreach (var testProject in testProjects)
+                {
+                    string opencoverParams = $"-register:user " +
+                    $"-target:dotnet.exe " +
+                    $"\"-targetdir:{ testProject}\" " +
+                    $"\"-targetargs:test\" " +
+                    $"\"-output:{RootDirectory}/OpenCover.coverageresults\" " +
+                    $"-mergeoutput " +
+                    $"-oldStyle " +
+                    $"-excludebyattribute:System.CodeDom.Compiler.GeneratedCodeAttribute " +
+                    $"\"-filter:+[DinkumCoin*]* -[*Tests]*\" ";
+
+                    ProcessTasks.StartProcess(
+                                 OpenCoverPath, opencoverParams, RootDirectory).AssertZeroExitCode();
+                }
+
+            });
 
 
         public Target Package => _ => _
@@ -49,16 +65,15 @@ namespace Build
             .Executes(() => {
 
 
-                DotNetPack(settings => settings.SetVersion(GetBuildVersion())
-                                                .SetConfiguration("Release")
+                DotNetPack(settings => settings.SetConfiguration("Release")
                                                 .SetNoBuild(true)
                                                 .SetOutputDirectory(LibrarySourceDirectory / "bin/Release")
                                                 .SetProject(LibrarySourceDirectory)
-                                                .SetAuthors("CROWNBET QA")
-                                                .SetDescription("Common code for Restful API testing")
+                                                .SetAuthors("DinkumCoin QA")
+                                                .SetDescription("DinkumCoin QA")
                                                 .SetPackageTags("QA")
                                                 .SetCopyright("Copyright 2017")
-                                                .SetPackageId("CrownBet.QA.API.Core")
+                                                .SetPackageId("DinkumCoin.Api.Client")
                 );
             });
 
@@ -68,7 +83,7 @@ namespace Build
             .Executes(() => {
 
                 DotNetNuGetPush(settings => settings
-                    .SetTargetPath(LibrarySourceDirectory / "bin/Release" / (LibraryName + $".{GetBuildVersion()}.nupkg"))
+                    .SetTargetPath(LibrarySourceDirectory / "bin/Release" / (LibraryName + $".nupkg"))
                     .SetSource("http://wgtawsnuget01.wgtech.local/nuget/"));
                     });
 
@@ -80,18 +95,5 @@ namespace Build
 
         public static int Main() => Execute<Build>(x => x.Compile);
 
-        private string GetBuildVersion()
-        {
-            string branch = Git.GetBranchName(RootDirectory);
-
-            branch = branch == "master" ? "" : "-" + branch.Replace("/", "-");
-
-            return GetSemanticBuildVersion() + branch;
-        }
-
-        private string GetSemanticBuildVersion()
-        {
-            return $"1.0.{Git.GetCommitCount(RootDirectory)}";
-        }
     }
 }

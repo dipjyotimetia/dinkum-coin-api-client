@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DinkumCoin.Api.Client", "DinkumCoin.Api.Client\DinkumCoin.Api.Client.csproj", "{98613F98-FB33-468B-8B86-400CF5D0383C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Build", "Build\Build.csproj", "{681FE5A1-0DFF-4751-8C04-983F2DB2BF8D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DinkumCoin.Api.Client.Tests", "DinkumCoin.Api.Client.Tests\DinkumCoin.Api.Client.Tests.csproj", "{7EB27902-5347-4029-AFA6-736DBB683D4C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,5 +17,13 @@ Global
 		{98613F98-FB33-468B-8B86-400CF5D0383C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98613F98-FB33-468B-8B86-400CF5D0383C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98613F98-FB33-468B-8B86-400CF5D0383C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{681FE5A1-0DFF-4751-8C04-983F2DB2BF8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{681FE5A1-0DFF-4751-8C04-983F2DB2BF8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{681FE5A1-0DFF-4751-8C04-983F2DB2BF8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{681FE5A1-0DFF-4751-8C04-983F2DB2BF8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EB27902-5347-4029-AFA6-736DBB683D4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EB27902-5347-4029-AFA6-736DBB683D4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EB27902-5347-4029-AFA6-736DBB683D4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EB27902-5347-4029-AFA6-736DBB683D4C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

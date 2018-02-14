@@ -6,9 +6,11 @@ namespace DinkumCoin.Api.Client.Tests
     public class DinkumClientTests
     {
         [Fact]
+        [Trait("Category","Integration")]
         public void SampleTest()
         {
-            Assert.True(5/1==5);
+            var client = new DinkumCoinApiClient("http://localhost");
+            Assert.NotNull(client);
         }
     }
 }
