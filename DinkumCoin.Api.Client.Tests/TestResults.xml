@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<assemblies timestamp="02/14/2018 22:02:56">
+  <assembly name="/Users/stuart/workspace/dinkum-coin-api-client/DinkumCoin.Api.Client.Tests/bin/Release/netcoreapp2.0/DinkumCoin.Api.Client.Tests.dll" run-date="2018-02-14" run-time="22:02:56" total="1" passed="1" failed="0" skipped="0" time="0.008" errors="0">
+    <errors />
+    <collection total="1" passed="1" failed="0" skipped="0" name="Test collection for DinkumCoin.Api.Client.Tests.DinkumClientTests" time="0.008">
+      <test name="DinkumCoin.Api.Client.Tests.DinkumClientTests.SampleTest" type="DinkumCoin.Api.Client.Tests.DinkumClientTests" method="SampleTest" time="0.0080000" result="Pass">
+        <traits />
+      </test>
+    </collection>
+  </assembly>
+</assemblies>
