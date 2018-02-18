@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Net.Http;
+using DinkumCoin.Api.Client.Http;
 
 namespace DinkumCoin.Api.Client
 {
@@ -14,24 +14,23 @@ namespace DinkumCoin.Api.Client
         private const string GET_WALLET_BY_ID_RESOURCE = "/api/wallets/{0}";
         private const string MINE_COIN_RESOURCE = "/api/wallets/{0}/minecoin";
 
+        private IHttpClient _client;
 
-        public DinkumCoinApiClient(string _baseUri)
+        public DinkumCoinApiClient(string _baseUri, IHttpClient client = null)
         {
             BaseUri = _baseUri;
+            _client = client ?? new HttpClient();
         }
 
 
 
         public Dictionary<string, string> GetAllWallets()
         {
-            HttpStatusCode statusCode;
+                HttpStatusCode statusCode;
 
-            using (var client = new HttpClient())
-            {
-                var request = new HttpRequestMessage(HttpMethod.Get, BaseUri.TrimEnd('/') + GET_WALLETS_RESOURCE);
+                var request = new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Get, BaseUri.TrimEnd('/') + GET_WALLETS_RESOURCE);
 
-
-                var response = client.SendAsync(request);
+                var response = _client.SendAsync(request);
                 var content = response.Result.Content.ReadAsStringAsync().Result;
                 statusCode = response.Result.StatusCode;
 
@@ -45,7 +44,7 @@ namespace DinkumCoin.Api.Client
                       : null;
                 }
                 throw new Exception($"Unexpected HTTP Status code in response, received {statusCode}: {content}");
-            }
+
         }
     }
 }
