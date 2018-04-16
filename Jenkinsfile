@@ -1,4 +1,3 @@
-def nugetAccessKey = ''
 
 pipeline {
 	agent {label 'dotnetcore'}
@@ -10,6 +9,7 @@ pipeline {
 	environment {
 		DOTNET_SKIP_FIRST_TIME_EXPERIENCE = "1"
 		DOTNET_CLI_TELEMETRY_OPTOUT = "1"	
+        NUGET_ACCESS_KEY = credentials('Nuget_Access_Key')
 	}
 	stages {
 		stage("Build") {
@@ -46,12 +46,10 @@ pipeline {
 				unstash "solution"
 				buildTarget "Package", "-NoDeps"
 
-                script {
-                    nugetAccessKey = credentials('Nuget_Access_Key')
-                }
-                sh "echo ${nugetAccessKey}"
 
-				buildTarget "Publish", "-NoDeps -NugetKey \"${nugetAccessKey}\""
+             
+
+				buildTarget "Publish", "-NoDeps -NugetKey \"${env.NUGET_ACCESS_KEY}\""
 			}
 		}
 	}
