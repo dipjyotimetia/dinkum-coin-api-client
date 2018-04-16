@@ -86,6 +86,7 @@ namespace Build
 
                 DotNetNuGetPush(settings => settings
                                     .SetTargetPath(LibrarySourceDirectory / "bin/Release" / (LibraryName + $".nupkg"))
+                                    .SetSource("https://api.nuget.org/v3/index.json")
                                     .SetApiKey(NugetKey)
                                );
                     });
