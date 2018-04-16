@@ -1,5 +1,7 @@
 pipeline {
 	agent {label 'dotnetcore'}
+
+     def nugetAccessKey = ''
 	
 	options { 
 		skipDefaultCheckout() 
@@ -43,7 +45,13 @@ pipeline {
 				deleteDir()
 				unstash "solution"
 				buildTarget "Package", "-NoDeps"
-				buildTarget "Publish", "-NoDeps -NugetKey \"${credentials('Nuget_Access_Key')}\""
+
+                script{
+                    nugetAccessKey = credentials('Nuget_Access_Key')
+                    sh "echo ${nugetAccessKey}"
+                }
+
+				buildTarget "Publish", "-NoDeps -NugetKey \"${nugetAccessKey}\""
 			}
 		}
 	}
