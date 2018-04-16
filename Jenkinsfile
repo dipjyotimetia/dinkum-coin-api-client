@@ -7,9 +7,7 @@ pipeline {
 	}
 	environment {
 		DOTNET_SKIP_FIRST_TIME_EXPERIENCE = "1"
-		DOTNET_CLI_TELEMETRY_OPTOUT = "1"
-
-		
+		DOTNET_CLI_TELEMETRY_OPTOUT = "1"	
 	}
 	stages {
 		stage("Build") {
@@ -66,5 +64,5 @@ pipeline {
 	}
 }
 void buildTarget(String targetName, String parameters = "") {
-		bat "dotnet run -p Build -Target ${targetName} ${parameters}"
+		sh "dotnet run -p Build -Target ${targetName} ${parameters}"
 }
