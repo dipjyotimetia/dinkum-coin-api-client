@@ -16,7 +16,7 @@ namespace Build
 
        private string OpenCoverPath = "C:/Tools/OpenCover/OpenCover.Console.exe";
 
-       public Target Compile => _ => _
+        public Target Compile => _ => _
             .Executes(() =>
                 DotNetBuild(
                     RootDirectory,

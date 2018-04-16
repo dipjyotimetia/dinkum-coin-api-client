@@ -14,12 +14,7 @@ pipeline {
 			steps {
 				deleteDir()
                 checkout scm
-				buildTarget "Export_Build_Version", "-BuildVersionFilePath \"${env.WORKSPACE}/version.txt\""
-				script {
-					currentBuild.displayName = readFile "${env.WORKSPACE}/version.txt"
-					echo "reading build version"
-                    buildVersion = readFile "${env.WORKSPACE}/version.txt"
-				}
+
 				buildTarget "Compile", "-NoDeps"
 				stash name: "solution", useDefaultExcludes: false
 			}
