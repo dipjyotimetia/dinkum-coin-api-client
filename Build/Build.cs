@@ -11,8 +11,10 @@ namespace Build
 {
     public partial class Build : NukeBuild
     {
+        [Parameter("Nuget access key", Name = "NugetKey")] public string NugetKey;
 
-        private string OpenCoverPath = "C:/Tools/OpenCover/OpenCover.Console.exe";
+
+       private string OpenCoverPath = "C:/Tools/OpenCover/OpenCover.Console.exe";
 
        public Target Compile => _ => _
             .Executes(() =>
@@ -30,7 +32,6 @@ namespace Build
                         .SetProjectFile(RootDirectory / "DinkumCoin.Api.Client.Tests")
 							.SetConfiguration("Release")
                             .SetLogger("xunit;LogFilePath=TestResults.xml")
-                            //.SetLogger("nunit;LogFilePath=TestResults.xml")
                          .SetNoBuild(true))
             );
 
@@ -80,11 +81,13 @@ namespace Build
 
         public Target Publish => _ => _
             .DependsOn(Package)
+            .Requires(() => NugetKey)
             .Executes(() => {
 
                 DotNetNuGetPush(settings => settings
-                    .SetTargetPath(LibrarySourceDirectory / "bin/Release" / (LibraryName + $".nupkg"))
-                    .SetSource("http://wgtawsnuget01.wgtech.local/nuget/"));
+                                    .SetTargetPath(LibrarySourceDirectory / "bin/Release" / (LibraryName + $".nupkg"))
+                                    .SetApiKey(NugetKey)
+                               );
                     });
 
         private string LibraryName => Path.GetFileNameWithoutExtension(SolutionFile);
