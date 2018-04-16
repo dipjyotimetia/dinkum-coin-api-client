@@ -46,10 +46,10 @@ pipeline {
 				unstash "solution"
 				buildTarget "Package", "-NoDeps"
 
-                script{
+                script {
                     nugetAccessKey = credentials('Nuget_Access_Key')
-                    sh "echo ${nugetAccessKey}"
                 }
+                sh "echo ${nugetAccessKey}"
 
 				buildTarget "Publish", "-NoDeps -NugetKey \"${nugetAccessKey}\""
 			}
