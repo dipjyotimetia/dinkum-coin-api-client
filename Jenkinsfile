@@ -1,9 +1,9 @@
+def nugetAccessKey = ''
+
 pipeline {
 	agent {label 'dotnetcore'}
 
-     def nugetAccessKey = ''
-	
-	options { 
+    options { 
 		skipDefaultCheckout() 
 		buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
 	}
