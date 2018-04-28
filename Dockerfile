@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.0.6-sdk-2.1.101-jessie
+FROM microsoft/dotnet 
 
 ENV DOTNET_SKIP_FIRST_TIME_EXPERIENCE true
 ENV DOTNET_CLI_TELEMETRY_OPTOUT true
