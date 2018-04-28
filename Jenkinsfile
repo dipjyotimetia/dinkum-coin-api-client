@@ -1,14 +1,12 @@
 
 pipeline {
-	agent {label 'dotnetcore'}
+	agent{ dockerfile true}
 
     options { 
 		skipDefaultCheckout() 
 		buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
 	}
-	environment {
-		DOTNET_SKIP_FIRST_TIME_EXPERIENCE = "1"
-		DOTNET_CLI_TELEMETRY_OPTOUT = "1"	
+	environment {	
         NUGET_ACCESS_KEY = credentials('Nuget_Access_Key')
 	}
 	stages {
