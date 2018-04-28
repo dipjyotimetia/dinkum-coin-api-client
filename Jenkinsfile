@@ -12,8 +12,8 @@ pipeline {
 	stages {
 		stage("Build") {
 			steps {
-				deleteDir()
-                checkout scm
+				//deleteDir()
+                //checkout scm
 
 				buildTarget "Compile", "-NoDeps"
 				stash name: "solution", useDefaultExcludes: false
