@@ -1,0 +1,2 @@
+add versioning for nuget packages
+fix issue where test report not saved on build failure
