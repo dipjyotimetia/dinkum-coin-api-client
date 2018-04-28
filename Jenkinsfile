@@ -3,7 +3,7 @@ pipeline {
 	agent{ dockerfile true}
 
     options { 
-		skipDefaultCheckout() 
+		//skipDefaultCheckout() 
 		buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
 	}
 	environment {	
