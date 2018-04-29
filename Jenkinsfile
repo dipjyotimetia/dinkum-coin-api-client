@@ -63,5 +63,5 @@ pipeline {
 	}
 }
 void buildTarget(String targetName, String parameters = "") {
-		sh "dotnet run -p \"${env.WORKSPACE}/Build\" -Target ${targetName} ${parameters}"
+		sh "dotnet run -p \"Build/Build.csproj\" -Target \"${targetName}\" ${parameters}"
 }
