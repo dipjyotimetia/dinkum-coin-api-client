@@ -12,19 +12,22 @@ pipeline {
 	stages {
 		stage("Build") {
 			steps {
-				deleteDir()
+			//	deleteDir()
                 checkout scm
 
+				sh "ls -al"
+				sh "echo Build"
+				sh "ls -al Build"
 				buildTarget "Compile", "-NoDeps"
-				stash name: "solution", useDefaultExcludes: false
+			//	stash name: "solution", useDefaultExcludes: false
 			}
 		}
 		stage("Unit test")  {
 		steps {
-				deleteDir()
-				unstash "solution"
+			//	deleteDir()
+			//	unstash "solution"
 				buildTarget "UnitTest", "-NoDeps"
-				stash name: "solution", useDefaultExcludes: false
+			//	stash name: "solution", useDefaultExcludes: false
  			}
 		}
 		// stage("Code Coverage")  {
@@ -40,8 +43,8 @@ pipeline {
 		stage("Publish NuGet package") {
 			when { branch "master" }
 			steps {
-				deleteDir()
-				unstash "solution"
+			//	deleteDir()
+			//	unstash "solution"
 				buildTarget "Package", "-NoDeps"
 
 
@@ -53,8 +56,8 @@ pipeline {
 	}
 	post {
 		always {
-			deleteDir()
-			unstash "solution" 
+		//	deleteDir()
+		//	unstash "solution" 
 			step([$class: 'XUnitBuilder',
 				thresholds: [[$class: 'FailedThreshold', unstableThreshold: '1']],
 				tools: [[ $class: 'XUnitDotNetTestType', pattern: '**/TestResults.xml']]]
